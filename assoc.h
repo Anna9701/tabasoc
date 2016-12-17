@@ -7,25 +7,27 @@
     #include <cctype>
     using namespace std;
 
-	class AssocTab{
+	class AssocTabR{
 	    public:
-		AssocTab();
-		AssocTab(const AssocTab &);
-		~AssocTab();
+		AssocTabR();
+		AssocTabR(const AssocTabR &);
+		~AssocTabR();
 
-		AssocTab& operator= (const AssocTab&);
+		AssocTabR& operator= (const AssocTabR&);
 		int& operator[](const char*);
-	    private:
+	    
+	    protected:
 		struct node;
                 node *head;
-		
+	   	void clear();
+		void swap(AssocTabR &);
+
+	    	
 		void insert (const char *, int);
-		void clear ();
-		node* find (const char *) const;
-		void swap (AssocTab &);
+	        node* find (const char *) const;
 	};
 
-	struct AssocTab::node{
+	struct AssocTabR::node{
 	    node *next;
 	    char *key;
 	    int val;
@@ -50,5 +52,12 @@
 		node &operator=(const node &);
 	};
 
-
+	class AssocTabN :public AssocTabR{
+		public:
+			int& operator[](const char*);
+		private:
+			char* konwert(const char*)const;
+			void insert (const char*, int);
+			node* find (const char*) const;		
+	};
 #endif

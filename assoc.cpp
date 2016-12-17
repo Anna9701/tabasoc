@@ -1,10 +1,10 @@
 #include "assoc.h"
 
-AssocTab::AssocTab (){
+AssocTabR::AssocTabR (){
 	head = NULL;
 }
 
-AssocTab::AssocTab(const AssocTab &x){
+AssocTabR::AssocTabR(const AssocTabR &x){
 	node *src, **dst;
 	head = NULL;
 	src = x.head;
@@ -22,11 +22,11 @@ AssocTab::AssocTab(const AssocTab &x){
 	}
 }
 
-AssocTab::~AssocTab(){
+AssocTabR::~AssocTabR(){
 	clear();
 }
 
-void AssocTab::clear(){
+void AssocTabR::clear(){
 	while(head){
 		node *temp = head->next;
 		delete head;
@@ -34,30 +34,30 @@ void AssocTab::clear(){
 	}
 }
 
-void AssocTab::insert(const char *key, int value){
+void AssocTabR::insert(const char *key, int value){
 	node *n = new node(key);
 	n->next = head; 
 	head = n;
 	head->val = value;
 }
 
-void AssocTab::swap (AssocTab &x){
+void AssocTabR::swap (AssocTabR &x){
 	node *temp = head;
 	head = x.head;
 	x.head = temp;
 }
 
-AssocTab& AssocTab::operator= (const AssocTab &x){
+AssocTabR& AssocTabR::operator= (const AssocTabR &x){
 	if(&x == this)
 		return *this;
 	
-	AssocTab temp (x);
+	AssocTabR temp (x);
 	swap (temp);
 	
 	return *this;
 }
 
-int& AssocTab::operator[] (const char *key){
+int& AssocTabR::operator[] (const char *key){
 	node *x = find (key);
 	if(!x){
 		insert(key, 0);
@@ -67,7 +67,7 @@ int& AssocTab::operator[] (const char *key){
 	return x->val;
 }
 
-AssocTab::node* AssocTab::find(const char *key) const{
+AssocTabR::node* AssocTabR::find(const char *key) const{
 	node *x = head;
 	
 	while(x){
@@ -78,3 +78,42 @@ AssocTab::node* AssocTab::find(const char *key) const{
 	
 	return NULL;
 }
+
+char* AssocTabN::konwert(const char *key) const {
+	int i=0;
+	char *newkey = new char [strlen(key)+1];
+ 
+	while(key[i] != '\0'){
+		newkey[i] = toupper(key[i]);
+		++i;
+	}
+	newkey[i] = '\0';
+	
+	return newkey;
+}
+		
+void AssocTabN::insert(const char *key, int value){
+	char *newkey = konwert(key);
+	AssocTabR::insert(newkey, value);
+
+	delete [] newkey;
+}
+
+AssocTabR::node* AssocTabN::find(const char *key)const{
+	char *newkey = konwert(key); 
+	
+	node *x = AssocTabR::find(newkey);
+	delete []newkey; 
+	
+	return x; 
+}
+
+int& AssocTabN::operator[](const char *key){
+	node *x = find(key);
+	if(!x){
+		insert(key, 0);
+		x = head;
+	}
+	return x->val;
+}
+
