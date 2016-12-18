@@ -22,7 +22,7 @@ AssocTabR::AssocTabR(const AssocTabR &x){
 	}
 }
 
-AssocTabR::~AssocTabR(){
+ AssocTabR::~AssocTabR(){
 	clear();
 }
 
@@ -34,7 +34,7 @@ void AssocTabR::clear(){
 	}
 }
 
-void AssocTabR::insert(const char *key, int value){
+ void AssocTabR::insert(const char *key, int value){
 	node *n = new node(key);
 	n->next = head; 
 	head = n;
@@ -67,7 +67,7 @@ int& AssocTabR::operator[] (const char *key){
 	return x->val;
 }
 
-AssocTabR::node* AssocTabR::find(const char *key) const{
+ AssocTabR::node* AssocTabR::find(const char *key) const{
 	node *x = head;
 	
 	while(x){
@@ -92,14 +92,14 @@ char* AssocTabN::konwert(const char *key) const {
 	return newkey;
 }
 		
-void AssocTabN::insert(const char *key, int value){
+ void AssocTabN::insert(const char *key, int value) {
 	char *newkey = konwert(key);
 	AssocTabR::insert(newkey, value);
 
 	delete [] newkey;
 }
 
-AssocTabR::node* AssocTabN::find(const char *key)const{
+ AssocTabR::node* AssocTabN::find(const char *key)const  {
 	char *newkey = konwert(key); 
 	
 	node *x = AssocTabR::find(newkey);

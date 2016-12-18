@@ -11,7 +11,7 @@
 	    public:
 		AssocTabR();
 		AssocTabR(const AssocTabR &);
-		~AssocTabR();
+		virtual ~AssocTabR();
 
 		AssocTabR& operator= (const AssocTabR&);
 		int& operator[](const char*);
@@ -22,9 +22,8 @@
 	   	void clear();
 		void swap(AssocTabR &);
 
-	    	
-		void insert (const char *, int);
-	        node* find (const char *) const;
+	    	virtual void insert (const char *, int);
+	        virtual node* find (const char *) const;
 	};
 
 	struct AssocTabR::node{
@@ -57,7 +56,7 @@
 			int& operator[](const char*);
 		private:
 			char* konwert(const char*)const;
-			void insert (const char*, int);
-			node* find (const char*) const;		
+			virtual void insert (const char*, int) override final;
+			virtual node* find (const char*) const override final;		
 	};
 #endif

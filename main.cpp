@@ -1,7 +1,7 @@
 #include "assoc.h"
 
 int main(){
-  AssocTabR t1, t2;
+  AssocTabN t1, t2;
  
   t1["MAtrix"] = 87;
   t1["hubabuba"] = 991;
