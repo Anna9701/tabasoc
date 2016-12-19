@@ -69,9 +69,8 @@ int& AssocTabR::operator[] (const char *key){
 
  AssocTabR::node* AssocTabR::find(const char *key) const{
 	node *x = head;
-	
 	while(x){
-		if(!strcmp(x->key, key))
+        if(porownaj(x->key, key))
 			return x;
 		x = x->next;
 	};
@@ -79,41 +78,29 @@ int& AssocTabR::operator[] (const char *key){
 	return NULL;
 }
 
-char* AssocTabN::konwert(const char *key) const {
+bool AssocTabR::porownaj(const char *key1, const char *key2)const{
+    if(!strcmp(key1, key2))
+        return true;
+    else
+        return false;
+}
+
+bool AssocTabN::porownaj(const char *key1, const char *key2) const {
 	int i=0;
-	char *newkey = new char [strlen(key)+1];
- 
-	while(key[i] != '\0'){
-		newkey[i] = toupper(key[i]);
+
+    /*if(strlen(key1) != strlen(key2))
+        return false;*/
+
+    while(key1[i] != '\0'){
+        if(toupper(key1[i]) != toupper(key2[i]))
+            return false;
 		++i;
 	}
-	newkey[i] = '\0';
 	
-	return newkey;
+    return true;
 }
 		
- void AssocTabN::insert(const char *key, int value) {
-	char *newkey = konwert(key);
-	AssocTabR::insert(newkey, value);
 
-	delete [] newkey;
-}
 
- AssocTabR::node* AssocTabN::find(const char *key)const  {
-	char *newkey = konwert(key); 
-	
-	node *x = AssocTabR::find(newkey);
-	delete []newkey; 
-	
-	return x; 
-}
 
-int& AssocTabN::operator[](const char *key){
-	node *x = find(key);
-	if(!x){
-		insert(key, 0);
-		x = head;
-	}
-	return x->val;
-}
 

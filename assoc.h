@@ -8,7 +8,7 @@
     using namespace std;
 
 	class AssocTabR{
-	    public:
+    public:
 		AssocTabR();
 		AssocTabR(const AssocTabR &);
 		virtual ~AssocTabR();
@@ -16,14 +16,15 @@
 		AssocTabR& operator= (const AssocTabR&);
 		int& operator[](const char*);
 	    
-	    protected:
+    protected:
 		struct node;
-                node *head;
+        node *head;
+
 	   	void clear();
 		void swap(AssocTabR &);
-
-	    	virtual void insert (const char *, int);
-	        virtual node* find (const char *) const;
+        virtual bool porownaj(const char*, const char*)const;
+        void insert (const char *, int);
+        node* find (const char *) const;
 	};
 
 	struct AssocTabR::node{
@@ -52,11 +53,7 @@
 	};
 
 	class AssocTabN :public AssocTabR{
-		public:
-			int& operator[](const char*);
 		private:
-			char* konwert(const char*)const;
-			virtual void insert (const char*, int) override final;
-			virtual node* find (const char*) const override final;		
+            virtual bool porownaj(const char*, const char*)const;
 	};
 #endif
