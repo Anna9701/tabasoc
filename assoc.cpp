@@ -1,10 +1,10 @@
 #include "assoc.h"
 
-AssocTab::AssocTab (){
+AssocTabR::AssocTabR (){
 	head = NULL;
 }
 
-AssocTab::AssocTab(const AssocTab &x){
+AssocTabR::AssocTabR(const AssocTabR &x){
 	node *src, **dst;
 	head = NULL;
 	src = x.head;
@@ -22,11 +22,11 @@ AssocTab::AssocTab(const AssocTab &x){
 	}
 }
 
-AssocTab::~AssocTab(){
+ AssocTabR::~AssocTabR(){
 	clear();
 }
 
-void AssocTab::clear(){
+void AssocTabR::clear(){
 	while(head){
 		node *temp = head->next;
 		delete head;
@@ -34,30 +34,30 @@ void AssocTab::clear(){
 	}
 }
 
-void AssocTab::insert(const char *key, int value){
+ void AssocTabR::insert(const char *key, int value){
 	node *n = new node(key);
 	n->next = head; 
 	head = n;
 	head->val = value;
 }
 
-void AssocTab::swap (AssocTab &x){
+void AssocTabR::swap (AssocTabR &x){
 	node *temp = head;
 	head = x.head;
 	x.head = temp;
 }
 
-AssocTab& AssocTab::operator= (const AssocTab &x){
+AssocTabR& AssocTabR::operator= (const AssocTabR &x){
 	if(&x == this)
 		return *this;
 	
-	AssocTab temp (x);
+	AssocTabR temp (x);
 	swap (temp);
 	
 	return *this;
 }
 
-int& AssocTab::operator[] (const char *key){
+int& AssocTabR::operator[] (const char *key){
 	node *x = find (key);
 	if(!x){
 		insert(key, 0);
@@ -67,14 +67,40 @@ int& AssocTab::operator[] (const char *key){
 	return x->val;
 }
 
-AssocTab::node* AssocTab::find(const char *key) const{
+ AssocTabR::node* AssocTabR::find(const char *key) const{
 	node *x = head;
-	
 	while(x){
-		if(!strcmp(x->key, key))
+        if(porownaj(x->key, key))
 			return x;
 		x = x->next;
 	};
 	
 	return NULL;
 }
+
+bool AssocTabR::porownaj(const char *key1, const char *key2)const{
+    if(!strcmp(key1, key2))
+        return true;
+    else
+        return false;
+}
+
+bool AssocTabN::porownaj(const char *key1, const char *key2) const {
+	int i=0;
+
+    /*if(strlen(key1) != strlen(key2))
+        return false;*/
+
+    while(key1[i] != '\0'){
+        if(toupper(key1[i]) != toupper(key2[i]))
+            return false;
+		++i;
+	}
+	
+    return true;
+}
+		
+
+
+
+
